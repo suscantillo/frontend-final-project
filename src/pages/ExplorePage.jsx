@@ -37,20 +37,20 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
           { query: debouncedSearch, status, type, orderBy: sort, sort: "desc" },
           controller.signal,
         );
+        if (controller.signal.aborted) return;
         setAnimeList(payload.data || []);
         setResultTotal(
           payload.pagination?.items?.total || (payload.data?.length ?? 0),
         );
-      } catch (caughtError) {
-        if (caughtError.name !== "AbortError") {
-          const message = "La API no respondió. Revisa tu conexión o intenta de nuevo.";
-          setError(message);
-          setAnimeList([]);
-          setResultTotal(0);
-          onNotify("error", message);
-        }
-      } finally {
         setIsLoading(false);
+      } catch (caughtError) {
+        if (caughtError.name === "AbortError") return;
+        const message = "La API no respondió. Revisa tu conexión o intenta de nuevo.";
+        setError(message);
+        setAnimeList([]);
+        setResultTotal(0);
+        setIsLoading(false);
+        onNotify("error", message);
       }
     }
 
@@ -80,6 +80,7 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
     score: "score",
   };
   const sortLabel = sortLabels[sort] || "score";
+  const showLoading = isLoading || search !== debouncedSearch;
 
   return (
     <div className="page-shell">
@@ -196,7 +197,7 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
       >
         <div>
           <span className="display" style={{ fontSize: 22, color: "var(--ink)" }}>
-            {isLoading ? "—" : animeList.length}
+            {showLoading ? "—" : animeList.length}
           </span>
           <span
             className="mono"
@@ -217,16 +218,16 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
         </div>
       </div>
 
-      {isLoading && <LoadingGrid count={6} />}
+      {showLoading && <LoadingGrid count={6} />}
 
-      {!isLoading && error && (
+      {!showLoading && error && (
         <ErrorState
           message={error}
           onRetry={() => setReloadKey((current) => current + 1)}
         />
       )}
 
-      {!isLoading && !error && animeList.length === 0 && (
+      {!showLoading && !error && animeList.length === 0 && (
         <EmptyState
           title="Nada en IKIGAI coincide con eso."
           description="Prueba con otro nombre o limpia los filtros para volver al top de romance."
@@ -235,7 +236,7 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
         />
       )}
 
-      {!isLoading && !error && animeList.length > 0 && view === "grid" && (
+      {!showLoading && !error && animeList.length > 0 && view === "grid" && (
         <section
           aria-label="Resultados en cuadrícula"
           className="grid-cards"
@@ -252,7 +253,7 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
         </section>
       )}
 
-      {!isLoading && !error && animeList.length > 0 && view === "list" && (
+      {!showLoading && !error && animeList.length > 0 && view === "list" && (
         <section
           aria-label="Resultados en lista"
           style={{ display: "flex", flexDirection: "column", gap: 12, paddingBottom: 40 }}

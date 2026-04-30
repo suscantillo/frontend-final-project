@@ -64,16 +64,16 @@ function AnimeDetailPage({ favoriteIds, onAddFavorite, onNotify, onRequestRemove
       setError("");
       try {
         const payload = await fetchAnimeById(id, controller.signal);
+        if (controller.signal.aborted) return;
         setAnime(payload.data || null);
-      } catch (caughtError) {
-        if (caughtError.name !== "AbortError") {
-          const message = "No se pudo cargar el detalle de este anime.";
-          setAnime(null);
-          setError(message);
-          onNotify("error", message);
-        }
-      } finally {
         setIsLoading(false);
+      } catch (caughtError) {
+        if (caughtError.name === "AbortError") return;
+        const message = "No se pudo cargar el detalle de este anime.";
+        setAnime(null);
+        setError(message);
+        setIsLoading(false);
+        onNotify("error", message);
       }
     }
 
