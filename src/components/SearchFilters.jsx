@@ -100,7 +100,7 @@ function SearchFilters({
 }) {
   return (
     <section
-      className="panel-ink atlas-input"
+      className="panel-ink form-shell"
       aria-label="Filtros de búsqueda"
       style={{
         padding: "14px 18px",

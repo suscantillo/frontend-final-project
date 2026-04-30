@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ConfirmDialog from "./components/ConfirmDialog.jsx";
 import Layout from "./components/Layout.jsx";
@@ -16,10 +16,7 @@ function App() {
   const [toasts, setToasts] = useState([]);
   const [confirmRequest, setConfirmRequest] = useState(null);
 
-  const favoriteIds = useMemo(
-    () => new Set(favorites.map((anime) => anime.mal_id)),
-    [favorites],
-  );
+  const favoriteIds = new Set(favorites.map((anime) => anime.mal_id));
 
   function dismissToast(id) {
     setToasts((currentToasts) => currentToasts.filter((toast) => toast.id !== id));
@@ -45,7 +42,7 @@ function App() {
   function requestRemoveFavorite(anime) {
     setConfirmRequest({
       title: "Quitar de favoritos?",
-      description: `Estas seguro de que quieres quitar ${anime.title} de tu lista de romance?`,
+      description: `Estas seguro de que quieres quitar ${anime.title} de tu ikigai?`,
       confirmLabel: "Quitar",
       cancelLabel: "No, conservarlo",
       tone: "danger",

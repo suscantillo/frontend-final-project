@@ -158,7 +158,7 @@ function ContactPage({ onNotify, onRequestSend }) {
   }
 
   return (
-    <div className="atlas-container-narrow">
+    <div className="page-shell-narrow">
       <div
         style={{
           display: "grid",
@@ -235,9 +235,9 @@ function ContactPage({ onNotify, onRequestSend }) {
             >
               O ESCRÍBENOS A ✦
             </div>
-            <ContactLine label="Email" value="hola@romance-atlas.cafe" jp="便箋" />
-            <ContactLine label="Prensa" value="prensa@romance-atlas.cafe" jp="記事" />
-            <ContactLine label="DM" value="@romance.atlas" jp="社交" />
+            <ContactLine label="Email" value="hola@ikigai.cafe" jp="便箋" />
+            <ContactLine label="Prensa" value="prensa@ikigai.cafe" jp="記事" />
+            <ContactLine label="DM" value="@ikigai.cafe" jp="社交" />
           </div>
 
           <div
@@ -374,7 +374,7 @@ function ContactPage({ onNotify, onRequestSend }) {
                 id="message"
                 name="message"
                 rows={5}
-                placeholder="El atlas necesita saber sobre…"
+                placeholder="IKIGAI necesita saber sobre…"
                 value={form.message}
                 onChange={(event) =>
                   updateField("message", event.target.value.slice(0, 500))

@@ -33,7 +33,7 @@ function FavoritesPage({ favoriteIds, favorites, onAddFavorite, onRequestRemoveF
 
   if (favorites.length === 0) {
     return (
-      <div className="atlas-container" style={{ maxWidth: 1100 }}>
+      <div className="page-shell" style={{ maxWidth: 1100 }}>
         <div
           className="mono"
           style={{
@@ -43,7 +43,7 @@ function FavoritesPage({ favoriteIds, favorites, onAddFavorite, onRequestRemoveF
             marginBottom: 8,
           }}
         >
-          ── お気に入り · TU MAPA PRIVADO
+          ── お気に入り · TU IKIGAI PRIVADO
         </div>
         <h1
           className="display"
@@ -54,7 +54,7 @@ function FavoritesPage({ favoriteIds, favorites, onAddFavorite, onRequestRemoveF
             letterSpacing: "-.02em",
           }}
         >
-          Tu atlas está
+          Tu ikigai está
           <br />
           <span style={{ color: "var(--rose-500)" }}>todavía vacío.</span>
           <span
@@ -105,7 +105,7 @@ function FavoritesPage({ favoriteIds, favorites, onAddFavorite, onRequestRemoveF
                 margin: 0,
               }}
             >
-              "Un atlas es un mapa privado de los lugares que importaron.
+              "Tu ikigai es la lista privada de las cosas que te dan razón de ser.
               <br />
               El tuyo está esperando su primer pin."
             </p>
@@ -121,7 +121,7 @@ function FavoritesPage({ favoriteIds, favorites, onAddFavorite, onRequestRemoveF
                 className="btn btn-primary"
                 style={{ textDecoration: "none" }}
               >
-                Explorar el atlas <Icon name="arrow-right" size={14} />
+                Explorar IKIGAI <Icon name="arrow-right" size={14} />
               </Link>
               <Link to="/" className="btn" style={{ textDecoration: "none" }}>
                 Volver al inicio
@@ -160,7 +160,7 @@ function FavoritesPage({ favoriteIds, favorites, onAddFavorite, onRequestRemoveF
   }
 
   return (
-    <div className="atlas-container">
+    <div className="page-shell">
       <div
         style={{
           display: "flex",
@@ -181,7 +181,7 @@ function FavoritesPage({ favoriteIds, favorites, onAddFavorite, onRequestRemoveF
               marginBottom: 8,
             }}
           >
-            ── 私のアトラス · TU ATLAS PRIVADO
+            ── 私の生き甲斐 · TU IKIGAI PRIVADO
           </div>
           <h1
             className="display"
@@ -323,7 +323,7 @@ function PolaroidCard({ anime, index, onRemove }) {
         onClick={onRemove}
         className="fav-btn is-fav"
         style={{ position: "absolute", top: 18, right: 18 }}
-        aria-label={`Quitar ${anime.title} del atlas`}
+        aria-label={`Quitar ${anime.title} de tu ikigai`}
       >
         <Icon name="x" size={14} />
       </button>

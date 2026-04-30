@@ -1,22 +1,21 @@
-import { useMemo } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { getAnimeImage } from "../utils/anime.js";
 import Icon from "./Icon.jsx";
 import PosterFrame from "./PosterFrame.jsx";
 
 function SakuraLayer({ count = 18 }) {
-  const petals = useMemo(
-    () =>
-      Array.from({ length: count }).map((_, index) => ({
-        left: Math.random() * 100,
-        delay: Math.random() * 11,
-        dur: 9 + Math.random() * 8,
-        sway: 2.4 + Math.random() * 2.6,
-        scale: 0.6 + Math.random() * 0.9,
-        hue: ["var(--rose-200)", "var(--rose-300)", "var(--rose-400)", "var(--lilac-200)"][
-          index % 4
-        ],
-      })),
-    [count],
+  const [petals] = useState(() =>
+    Array.from({ length: count }).map((_, index) => ({
+      left: Math.random() * 100,
+      delay: Math.random() * 11,
+      dur: 9 + Math.random() * 8,
+      sway: 2.4 + Math.random() * 2.6,
+      scale: 0.6 + Math.random() * 0.9,
+      hue: ["var(--rose-200)", "var(--rose-300)", "var(--rose-400)", "var(--lilac-200)"][
+        index % 4
+      ],
+    })),
   );
 
   return (
@@ -97,6 +96,7 @@ function HeroPanel({ featured }) {
       </div>
 
       <div
+        className="hero-shell"
         style={{
           maxWidth: 1440,
           margin: "0 auto",
@@ -123,7 +123,7 @@ function HeroPanel({ featured }) {
             className="mono hide-on-mobile"
             style={{ fontSize: 11, color: "var(--ink-mute)", letterSpacing: ".12em" }}
           >
-            ── ATLAS №.001 · GENRE ROMANCE
+            ── IKIGAI №.001 · GENRE ROMANCE
           </span>
           <span
             className="hand heart-bounce"
@@ -140,7 +140,7 @@ function HeroPanel({ featured }) {
               className="display"
               style={{
                 margin: 0,
-                fontSize: "clamp(48px, 7vw, 104px)",
+                fontSize: "clamp(40px, 8vw, 104px)",
                 lineHeight: 0.92,
                 letterSpacing: "-.025em",
                 color: "var(--ink)",
@@ -200,8 +200,8 @@ function HeroPanel({ featured }) {
                 animationDelay: ".9s",
               }}
             >
-              Un atlas curado a mano del catálogo de romance de MyAnimeList — ordenado por la
-              forma en que te aprietan el pecho. Datos en vivo desde la API pública de Jikan.
+              IKIGAI es un catálogo curado a mano del shelf de romance de MyAnimeList — ordenado
+              por la forma en que te aprietan el pecho. Datos en vivo desde la API pública de Jikan.
             </p>
 
             <div
@@ -220,7 +220,7 @@ function HeroPanel({ featured }) {
                 className="btn btn-primary btn-mega"
                 style={{ textDecoration: "none" }}
               >
-                Explorar el atlas <Icon name="arrow-right" size={16} />
+                Explorar IKIGAI <Icon name="arrow-right" size={16} />
               </Link>
               <Link
                 to="/favoritos"
@@ -238,11 +238,9 @@ function HeroPanel({ featured }) {
             </div>
 
             <div
-              className="slam-in-up"
+              className="slam-in-up hero-stats"
               style={{
                 marginTop: 48,
-                display: "grid",
-                gridTemplateColumns: "repeat(4, 1fr)",
                 border: "2px solid var(--ink)",
                 borderRadius: "var(--r-md)",
                 overflow: "hidden",
@@ -302,7 +300,7 @@ function HeroPanel({ featured }) {
             </div>
           </div>
 
-          <div style={{ position: "relative", paddingTop: 12 }}>
+          <div className="hero-side" style={{ position: "relative", paddingTop: 12 }}>
             {featured ? (
               <>
                 <div
@@ -314,7 +312,7 @@ function HeroPanel({ featured }) {
                     animationDelay: ".3s",
                   }}
                 >
-                  <PosterFrame anime={featured} height={520} />
+                  <PosterFrame anime={featured} fill />
                   <div
                     className="float-caption"
                     style={{
@@ -393,14 +391,18 @@ function HeroPanel({ featured }) {
                   }}
                   aria-hidden="true"
                 >
-                  <div
-                    className="halftone"
+                  <img
+                    src={getAnimeImage(featured)}
+                    alt=""
+                    loading="lazy"
                     style={{
                       width: "100%",
                       height: 110,
                       borderRadius: 10,
                       marginBottom: 8,
-                      background: "linear-gradient(135deg, var(--rose-200), var(--lilac-200))",
+                      objectFit: "cover",
+                      border: "1.5px solid var(--ink)",
+                      display: "block",
                     }}
                   />
                   <div

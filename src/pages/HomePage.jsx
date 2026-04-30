@@ -34,7 +34,7 @@ const STEPS = [
     n: "04",
     jp: "便",
     title: "Cuéntanos",
-    body: "¿Encontraste un bug o una joya escondida? El atlas escucha. Escríbenos por contacto.",
+    body: "¿Encontraste un bug o una joya escondida? IKIGAI escucha. Escríbenos por contacto.",
     background: "var(--sky-100)",
     rotation: ".6deg",
   },
@@ -60,21 +60,6 @@ function HomePage() {
     loadTop();
     return () => controller.abort();
   }, []);
-
-  useEffect(() => {
-    const elements = document.querySelectorAll(".reveal");
-    if (!elements.length) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add("in");
-        });
-      },
-      { threshold: 0.14 },
-    );
-    elements.forEach((element) => observer.observe(element));
-    return () => observer.disconnect();
-  }, [topAnime.length]);
 
   const featured = topAnime[1] || topAnime[0];
   const trending = topAnime.slice(0, 4);
@@ -111,7 +96,6 @@ function HomePage() {
       </div>
 
       <section
-        className="reveal"
         aria-labelledby="trending-title"
         style={{ maxWidth: 1440, margin: "0 auto", padding: "72px 32px 0" }}
       >
@@ -198,7 +182,6 @@ function HomePage() {
       </section>
 
       <section
-        className="reveal"
         aria-labelledby="how-title"
         style={{ maxWidth: 1440, margin: "0 auto", padding: "96px 32px 0" }}
       >
@@ -211,7 +194,7 @@ function HomePage() {
             marginBottom: 6,
           }}
         >
-          ── アトラスの作り方 · CÓMO FUNCIONA EL ATLAS
+          ── 生き甲斐の作り方 · CÓMO FUNCIONA IKIGAI
         </div>
         <h2
           id="how-title"
@@ -292,7 +275,6 @@ function HomePage() {
       </section>
 
       <section
-        className="reveal"
         aria-label="Llamado a explorar"
         style={{ maxWidth: 1440, margin: "96px auto 0", padding: "0 32px" }}
       >
@@ -360,7 +342,7 @@ function HomePage() {
                 className="btn btn-primary btn-mega"
                 style={{ textDecoration: "none" }}
               >
-                Abrir el atlas <Icon name="arrow-right" size={16} />
+                Abrir IKIGAI <Icon name="arrow-right" size={16} />
               </Link>
               <Link
                 to="/contacto"

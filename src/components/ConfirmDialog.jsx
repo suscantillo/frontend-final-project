@@ -101,9 +101,8 @@ function ConfirmDialog({ onCancel, onConfirm, request }) {
               flexWrap: "wrap",
             }}
           >
-            {/* Dark pattern intencional: el botón "conservar" está más destacado
-                visualmente que el botón destructivo, empujando al usuario a no
-                quitar el favorito. Comentado a propósito para el rúbrica. */}
+            {/* dark pattern: el botón de cancelar es el primario y el de confirmar el secundario,
+                para que cueste un poco más quitar un favorito */}
             <button
               type="button"
               className="btn btn-sm btn-primary"

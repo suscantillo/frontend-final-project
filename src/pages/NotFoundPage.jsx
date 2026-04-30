@@ -109,7 +109,7 @@ function NotFoundPage() {
             <Icon name="home" size={14} /> Volver al inicio
           </Link>
           <Link to="/explorar" className="btn" style={{ textDecoration: "none" }}>
-            Explorar el atlas
+            Explorar IKIGAI
           </Link>
         </div>
       </div>

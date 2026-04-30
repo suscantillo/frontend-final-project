@@ -99,7 +99,7 @@ function AnimeDetailPage({ favoriteIds, onAddFavorite, onNotify, onRequestRemove
 
   if (isLoading) {
     return (
-      <div className="atlas-container">
+      <div className="page-shell">
         <LoadingGrid count={3} />
       </div>
     );
@@ -107,7 +107,7 @@ function AnimeDetailPage({ favoriteIds, onAddFavorite, onNotify, onRequestRemove
 
   if (error) {
     return (
-      <div className="atlas-container">
+      <div className="page-shell">
         <ErrorState
           message={error}
           onRetry={() => setReloadKey((current) => current + 1)}
@@ -118,7 +118,7 @@ function AnimeDetailPage({ favoriteIds, onAddFavorite, onNotify, onRequestRemove
 
   if (!anime) {
     return (
-      <div className="atlas-container">
+      <div className="page-shell">
         <EmptyState
           title="Detalle no disponible."
           description="Jikan no devolvió información para este ID."
@@ -141,19 +141,8 @@ function AnimeDetailPage({ favoriteIds, onAddFavorite, onNotify, onRequestRemove
 
   return (
     <article>
-      <div style={{ background: "var(--ink)", color: "var(--paper)" }}>
-        <div
-          style={{
-            maxWidth: 1440,
-            margin: "0 auto",
-            padding: "10px 32px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: 12,
-            flexWrap: "wrap",
-          }}
-        >
+      <div className="detail-ribbon">
+        <div className="detail-ribbon-inner">
           <Link
             to="/explorar"
             style={{
@@ -167,24 +156,24 @@ function AnimeDetailPage({ favoriteIds, onAddFavorite, onNotify, onRequestRemove
               textDecoration: "none",
             }}
           >
-            <Icon name="arrow-left" size={14} /> Volver al atlas
+            <Icon name="arrow-left" size={14} /> Volver a IKIGAI
           </Link>
           <div
-            className="mono"
+            className="mono detail-ribbon-id"
             style={{
               fontSize: 11,
               letterSpacing: ".12em",
               color: "rgba(255,253,248,.6)",
             }}
           >
-            ATLAS · ID #{String(anime.mal_id).padStart(4, "0")} · GENRE 22 ✦
+            IKIGAI · ID #{String(anime.mal_id).padStart(4, "0")} · GENRE 22 ✦
           </div>
         </div>
       </div>
 
-      <div className="atlas-container">
+      <div className="page-shell">
         <div className="split-detail">
-          <div style={{ position: "sticky", top: 90 }}>
+          <div className="detail-poster-col">
             <div className="panel-ink" style={{ overflow: "hidden", background: "var(--paper)" }}>
               <PosterFrame anime={anime} height={560} />
             </div>
@@ -197,7 +186,7 @@ function AnimeDetailPage({ favoriteIds, onAddFavorite, onNotify, onRequestRemove
                 onClick={handleFavoriteToggle}
               >
                 <Icon name={isFavorite ? "heart-fill" : "heart"} size={15} />
-                {isFavorite ? "En tu atlas" : "Guardar al atlas"}
+                {isFavorite ? "En tu ikigai" : "Guardar en ikigai"}
               </button>
               {anime.trailer?.url && (
                 <a
@@ -258,7 +247,7 @@ function AnimeDetailPage({ favoriteIds, onAddFavorite, onNotify, onRequestRemove
             </div>
           </div>
 
-          <div>
+          <div className="detail-content-col">
             <div
               style={{
                 display: "flex",
@@ -286,10 +275,12 @@ function AnimeDetailPage({ favoriteIds, onAddFavorite, onNotify, onRequestRemove
               <div
                 style={{
                   fontFamily: "var(--font-jp)",
-                  fontSize: 22,
+                  fontSize: "clamp(15px, 3.6vw, 22px)",
                   color: "var(--rose-500)",
                   fontWeight: 600,
                   marginBottom: 4,
+                  lineHeight: 1.25,
+                  wordBreak: "break-word",
                 }}
               >
                 {anime.title_japanese}
@@ -299,9 +290,10 @@ function AnimeDetailPage({ favoriteIds, onAddFavorite, onNotify, onRequestRemove
               className="display"
               style={{
                 margin: 0,
-                fontSize: "clamp(36px, 5vw, 68px)",
-                lineHeight: 0.98,
-                letterSpacing: "-.025em",
+                fontSize: "clamp(28px, 6vw, 68px)",
+                lineHeight: 1.05,
+                letterSpacing: "-.02em",
+                wordBreak: "break-word",
               }}
             >
               {anime.title}
@@ -320,16 +312,7 @@ function AnimeDetailPage({ favoriteIds, onAddFavorite, onNotify, onRequestRemove
               </div>
             )}
 
-            <div
-              className="panel-ink"
-              style={{
-                marginTop: 22,
-                padding: 0,
-                display: "grid",
-                gridTemplateColumns: "repeat(3, 1fr)",
-                overflow: "hidden",
-              }}
-            >
+            <div className="panel-ink detail-score-grid">
               {[
                 {
                   label: "Score",
@@ -352,14 +335,8 @@ function AnimeDetailPage({ favoriteIds, onAddFavorite, onNotify, onRequestRemove
                   sub: "en MAL",
                   color: "var(--lilac-400)",
                 },
-              ].map((stat, index) => (
-                <div
-                  key={stat.label}
-                  style={{
-                    padding: "16px 18px",
-                    borderRight: index < 2 ? "2px solid var(--ink)" : 0,
-                  }}
-                >
+              ].map((stat) => (
+                <div key={stat.label} className="detail-score-cell">
                   <div
                     className="mono"
                     style={{
@@ -436,7 +413,7 @@ function AnimeDetailPage({ favoriteIds, onAddFavorite, onNotify, onRequestRemove
                   ── 関連 · SI TE GUSTÓ ESTE
                 </div>
                 <h3 className="display" style={{ margin: "0 0 16px", fontSize: 24 }}>
-                  El atlas cree que también caerás por…
+                  IKIGAI cree que también caerás por…
                 </h3>
                 <div className="grid-4">
                   {related.map((item) => (

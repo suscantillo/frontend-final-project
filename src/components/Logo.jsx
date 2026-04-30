@@ -2,7 +2,7 @@ function Logo({ size = 28 }) {
   return (
     <span
       style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
-      aria-label="Romance Atlas"
+      aria-label="IKIGAI"
     >
       <svg width={size} height={size} viewBox="0 0 40 40" fill="none" role="img">
         <circle cx="20" cy="20" r="18" fill="var(--rose-500)" />
@@ -18,7 +18,7 @@ function Logo({ size = 28 }) {
         className="display"
         style={{ fontSize: 17, letterSpacing: "-.01em", color: "var(--ink)" }}
       >
-        Romance<span style={{ color: "var(--rose-500)" }}>Atlas</span>
+        IKI<span style={{ color: "var(--rose-500)" }}>GAI</span>
       </span>
     </span>
   );

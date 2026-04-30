@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { fetchRomanceAnime } from "../api/jikan.js";
 import AnimeCard from "../components/AnimeCard.jsx";
@@ -73,21 +73,16 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
     setSort("score");
   }
 
-  const sortLabel = useMemo(() => {
-    switch (sort) {
-      case "popularity":
-        return "popularidad";
-      case "title":
-        return "A → Z";
-      case "start_date":
-        return "más reciente";
-      default:
-        return "score";
-    }
-  }, [sort]);
+  const sortLabels = {
+    popularity: "popularidad",
+    title: "A → Z",
+    start_date: "más reciente",
+    score: "score",
+  };
+  const sortLabel = sortLabels[sort] || "score";
 
   return (
-    <div className="atlas-container">
+    <div className="page-shell">
       <div
         style={{
           display: "grid",
@@ -108,7 +103,7 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
               marginBottom: 8,
             }}
           >
-            ── 探索 · EXPLORA EL ATLAS
+            ── 探索 · EXPLORA IKIGAI
           </div>
           <h1
             className="display"
@@ -164,13 +159,13 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
             }}
           >
             "Probamos cada serie leyendo en voz alta sus tres primeras sinopsis a medianoche.
-            Si nos sale una lágrima, entra al atlas."
+            Si nos sale una lágrima, entra a IKIGAI."
           </p>
           <div
             className="hand"
             style={{ marginTop: 6, fontSize: 18, color: "var(--rose-700)" }}
           >
-            — el equipo del atlas
+            — el equipo de IKIGAI
           </div>
         </aside>
       </div>
@@ -233,7 +228,7 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
 
       {!isLoading && !error && animeList.length === 0 && (
         <EmptyState
-          title="Nada en el atlas coincide con eso."
+          title="Nada en IKIGAI coincide con eso."
           description="Prueba con otro nombre o limpia los filtros para volver al top de romance."
           actionLabel="Limpiar filtros"
           onAction={resetFilters}
