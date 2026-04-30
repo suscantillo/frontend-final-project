@@ -11,23 +11,16 @@ const TYPE_OPTIONS = [
 
 function Segmented({ label, value, options, onChange }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+    <div className="flex items-center gap-1.5">
       <span
-        className="mono"
-        style={{ fontSize: 10, color: "var(--ink-mute)", letterSpacing: ".1em" }}
+        className="mono text-[10px] tracking-[.1em] text-[var(--ink-mute)]"
       >
         {label.toUpperCase()}
       </span>
       <div
         role="radiogroup"
         aria-label={label}
-        style={{
-          display: "inline-flex",
-          border: "1.5px solid var(--ink)",
-          borderRadius: 999,
-          overflow: "hidden",
-          background: "var(--paper)",
-        }}
+        className="inline-flex overflow-hidden rounded-full border-[1.5px] border-[var(--ink)] bg-[var(--paper)]"
       >
         {options.map((option, index) => {
           const active = value === option.value;
@@ -38,18 +31,13 @@ function Segmented({ label, value, options, onChange }) {
               role="radio"
               aria-checked={active}
               onClick={() => onChange(option.value)}
-              style={{
-                appearance: "none",
-                border: 0,
-                padding: "6px 12px",
-                background: active ? "var(--ink)" : "transparent",
-                color: active ? "var(--paper)" : "var(--ink)",
-                fontFamily: "var(--font-display)",
-                fontWeight: 600,
-                fontSize: 12,
-                cursor: "pointer",
-                borderLeft: index > 0 ? "1.5px solid var(--ink)" : "none",
-              }}
+              className={[
+                "cursor-pointer border-0 px-3 py-1.5 text-[12px] font-semibold [font-family:var(--font-display)]",
+                active
+                  ? "bg-[var(--ink)] text-[var(--paper)]"
+                  : "bg-transparent text-[var(--ink)]",
+                index > 0 ? "border-l-[1.5px] border-[var(--ink)]" : "",
+              ].join(" ")}
             >
               {option.label}
             </button>
@@ -67,18 +55,12 @@ function ViewToggle({ active, onClick, icon, label }) {
       onClick={onClick}
       aria-pressed={active}
       aria-label={label}
-      style={{
-        width: 34,
-        height: 34,
-        borderRadius: 8,
-        border: "1.5px solid var(--ink)",
-        background: active ? "var(--ink)" : "var(--paper)",
-        color: active ? "var(--paper)" : "var(--ink)",
-        cursor: "pointer",
-        display: "inline-flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
+      className={[
+        "inline-flex h-[34px] w-[34px] items-center justify-center rounded-[8px] border-[1.5px] border-[var(--ink)]",
+        active
+          ? "bg-[var(--ink)] text-[var(--paper)]"
+          : "bg-[var(--paper)] text-[var(--ink)]",
+      ].join(" ")}
     >
       <Icon name={icon} size={16} />
     </button>
@@ -100,32 +82,12 @@ function SearchFilters({
 }) {
   return (
     <section
-      className="panel-ink form-shell"
+      className="panel-ink form-shell mb-[22px] flex flex-wrap items-center gap-3.5 bg-[var(--paper)] px-[18px] py-[14px]"
       aria-label="Filtros de búsqueda"
-      style={{
-        padding: "14px 18px",
-        display: "flex",
-        alignItems: "center",
-        gap: 14,
-        flexWrap: "wrap",
-        background: "var(--paper)",
-        marginBottom: 22,
-      }}
     >
       <label
         htmlFor="search"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-          flex: "1 1 280px",
-          minWidth: 220,
-          background: "var(--cream)",
-          border: "1.5px solid var(--ink)",
-          borderRadius: 999,
-          padding: "8px 14px",
-          color: "var(--ink)",
-        }}
+        className="flex min-w-[220px] flex-[1_1_280px] items-center gap-2 rounded-full border-[1.5px] border-[var(--ink)] bg-[var(--cream)] px-[14px] py-2 text-[var(--ink)]"
       >
         <Icon name="search" size={16} />
         <span className="sr-only">Buscar anime</span>
@@ -135,27 +97,14 @@ function SearchFilters({
           onChange={(event) => onSearchChange(event.target.value)}
           placeholder="Buscar por título o 日本語…"
           type="search"
-          style={{
-            flex: 1,
-            border: 0,
-            outline: 0,
-            background: "transparent",
-            fontFamily: "var(--font-body)",
-            fontSize: 14,
-            color: "var(--ink)",
-          }}
+          className="flex-1 border-0 bg-transparent text-[14px] text-[var(--ink)] outline-0 [font-family:var(--font-body)]"
         />
         {search && (
           <button
             type="button"
             onClick={() => onSearchChange("")}
             aria-label="Limpiar búsqueda"
-            style={{
-              border: 0,
-              background: "transparent",
-              cursor: "pointer",
-              color: "var(--ink-mute)",
-            }}
+            className="cursor-pointer border-0 bg-transparent text-[var(--ink-mute)]"
           >
             <Icon name="x" size={14} />
           </button>
@@ -170,10 +119,9 @@ function SearchFilters({
       />
       <Segmented label="Tipo" value={type} options={TYPE_OPTIONS} onChange={onTypeChange} />
 
-      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+      <div className="flex items-center gap-1.5">
         <span
-          className="mono"
-          style={{ fontSize: 10, color: "var(--ink-mute)", letterSpacing: ".1em" }}
+          className="mono text-[10px] tracking-[.1em] text-[var(--ink-mute)]"
         >
           ORDEN
         </span>
@@ -181,17 +129,7 @@ function SearchFilters({
           value={sort}
           onChange={(event) => onSortChange(event.target.value)}
           aria-label="Ordenar resultados"
-          style={{
-            border: "1.5px solid var(--ink)",
-            borderRadius: 999,
-            padding: "6px 12px",
-            background: "var(--paper)",
-            fontFamily: "var(--font-display)",
-            fontWeight: 600,
-            fontSize: 12,
-            cursor: "pointer",
-            color: "var(--ink)",
-          }}
+          className="cursor-pointer rounded-full border-[1.5px] border-[var(--ink)] bg-[var(--paper)] px-3 py-1.5 text-[12px] font-semibold text-[var(--ink)] [font-family:var(--font-display)]"
         >
           <option value="score">Score</option>
           <option value="popularity">Popularidad</option>
@@ -209,7 +147,7 @@ function SearchFilters({
         <Icon name="x" size={12} /> Limpiar
       </button>
 
-      <div style={{ marginLeft: "auto", display: "flex", gap: 6 }}>
+      <div className="ml-auto flex gap-1.5">
         <ViewToggle
           active={view === "grid"}
           onClick={() => onViewChange("grid")}

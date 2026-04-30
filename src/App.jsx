@@ -79,7 +79,16 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout favoritesCount={favorites.length} />}>
-          <Route index element={<HomePage />} />
+          <Route
+            index
+            element={
+              <HomePage
+                favoriteIds={favoriteIds}
+                onAddFavorite={addFavorite}
+                onRequestRemoveFavorite={requestRemoveFavorite}
+              />
+            }
+          />
           <Route
             path="explorar"
             element={

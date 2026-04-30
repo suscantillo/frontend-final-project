@@ -40,7 +40,7 @@ const STEPS = [
   },
 ];
 
-function HomePage() {
+function HomePage({ favoriteIds, onAddFavorite, onRequestRemoveFavorite }) {
   const [topAnime, setTopAnime] = useState([]);
 
   useEffect(() => {
@@ -63,6 +63,15 @@ function HomePage() {
 
   const featured = topAnime[1] || topAnime[0];
   const trending = topAnime.slice(0, 4);
+
+  function handleFavoriteToggle(anime) {
+    if (favoriteIds.has(anime.mal_id)) {
+      onRequestRemoveFavorite(anime);
+      return;
+    }
+
+    onAddFavorite(anime);
+  }
 
   return (
     <>
@@ -97,39 +106,18 @@ function HomePage() {
 
       <section
         aria-labelledby="trending-title"
-        style={{ maxWidth: 1440, margin: "0 auto", padding: "72px 32px 0" }}
+        className="mx-auto max-w-[1440px] px-4 pt-18 sm:px-6 lg:px-8"
       >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "space-between",
-            marginBottom: 28,
-            gap: 16,
-            flexWrap: "wrap",
-          }}
-        >
+        <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
           <div>
             <div
-              className="mono"
-              style={{
-                fontSize: 11,
-                color: "var(--rose-500)",
-                letterSpacing: ".15em",
-                marginBottom: 6,
-              }}
+              className="mono mb-1.5 text-[11px] tracking-[.15em] text-[var(--rose-500)]"
             >
               ── 今週のトレンド · TENDENCIA ESTA SEMANA
             </div>
             <h2
               id="trending-title"
-              className="display"
-              style={{
-                margin: 0,
-                fontSize: "clamp(34px, 5vw, 48px)",
-                letterSpacing: "-.02em",
-                lineHeight: 1,
-              }}
+              className="display m-0 text-[clamp(34px,5vw,48px)] leading-none tracking-[-.02em]"
             >
               Los corazones que todos están guardando
               <br />
@@ -140,8 +128,7 @@ function HomePage() {
           </div>
           <Link
             to="/explorar"
-            className="btn btn-sm btn-mega"
-            style={{ textDecoration: "none" }}
+            className="btn btn-sm btn-mega no-underline"
           >
             Ver todo <Icon name="arrow-up-right" size={12} />
           </Link>
@@ -156,8 +143,8 @@ function HomePage() {
             >
               <AnimeCard
                 anime={anime}
-                isFavorite={false}
-                onFavoriteToggle={() => {}}
+                isFavorite={favoriteIds.has(anime.mal_id)}
+                onFavoriteToggle={handleFavoriteToggle}
                 rank={index + 1}
               />
             </div>
@@ -166,14 +153,7 @@ function HomePage() {
             Array.from({ length: 4 }).map((_, index) => (
               <div
                 key={index}
-                className="panel-ink"
-                style={{
-                  height: 380,
-                  background:
-                    "linear-gradient(135deg, var(--rose-100), var(--lilac-100))",
-                  display: "grid",
-                  placeItems: "center",
-                }}
+                className="panel-ink grid h-[380px] place-items-center bg-[linear-gradient(135deg,var(--rose-100),var(--lilac-100))]"
               >
                 <span className="heart-pulse" aria-hidden="true" />
               </div>
@@ -183,28 +163,16 @@ function HomePage() {
 
       <section
         aria-labelledby="how-title"
-        style={{ maxWidth: 1440, margin: "0 auto", padding: "96px 32px 0" }}
+        className="mx-auto max-w-[1440px] px-4 pt-24 sm:px-6 lg:px-8"
       >
         <div
-          className="mono"
-          style={{
-            fontSize: 11,
-            color: "var(--rose-500)",
-            letterSpacing: ".15em",
-            marginBottom: 6,
-          }}
+          className="mono mb-1.5 text-[11px] tracking-[.15em] text-[var(--rose-500)]"
         >
           ── 生き甲斐の作り方 · CÓMO FUNCIONA IKIGAI
         </div>
         <h2
           id="how-title"
-          className="display"
-          style={{
-            margin: "0 0 36px",
-            fontSize: "clamp(28px, 4vw, 40px)",
-            letterSpacing: "-.02em",
-            maxWidth: 720,
-          }}
+          className="display mb-9 max-w-[720px] text-[clamp(28px,4vw,40px)] tracking-[-.02em]"
         >
           Cuatro paneles, una historia de amor{" "}
           <span style={{ fontFamily: "var(--font-jp)", color: "var(--rose-400)" }}>—</span> de{" "}
@@ -276,7 +244,7 @@ function HomePage() {
 
       <section
         aria-label="Llamado a explorar"
-        style={{ maxWidth: 1440, margin: "96px auto 0", padding: "0 32px" }}
+        className="mx-auto mt-24 max-w-[1440px] px-4 sm:px-6 lg:px-8"
       >
         <div
           className="panel-ink"

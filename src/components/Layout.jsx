@@ -97,7 +97,7 @@ function Footer() {
             style={{
               marginTop: 14,
               color: "rgba(255,253,248,.7)",
-              maxWidth: 360,
+              maxWidth: 520,
               fontSize: 14,
               lineHeight: 1.6,
             }}
@@ -118,39 +118,9 @@ function Footer() {
             POWERED BY JIKAN · GENRE 22 · MADE WITH ♡
           </p>
         </div>
-        <FooterCol
-          title="Navegar"
-          jp="案内"
-          items={[
-            { label: "Inicio", to: "/" },
-            { label: "Explorar", to: "/explorar" },
-            { label: "Favoritos", to: "/favoritos" },
-            { label: "Contacto", to: "/contacto" },
-          ]}
-        />
-        <FooterCol
-          title="Géneros"
-          jp="部門"
-          items={[
-            { label: "Romance", to: "/explorar" },
-            { label: "Slice of Life", to: "/explorar" },
-            { label: "Drama", to: "/explorar" },
-            { label: "Comedy", to: "/explorar" },
-          ]}
-        />
-        <FooterCol
-          title="Ikigai"
-          jp="道"
-          items={[
-            { label: "Acerca", to: "/" },
-            { label: "Prensa", to: "/contacto" },
-            { label: "API", to: "/" },
-            { label: "Privacidad", to: "/" },
-          ]}
-        />
       </div>
       <div className="footer-bottom">
-        <span className="mono">© 2026 IKIGAI · ALL HEARTS RESERVED</span>
+        <span className="mono">© 2026 IKIGAI · hecho con amor por jesus cantillo ♡</span>
         <span style={{ fontFamily: "var(--font-jp)" }}>恋を見つけよう ♡</span>
       </div>
     </footer>

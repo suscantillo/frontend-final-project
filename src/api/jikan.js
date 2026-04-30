@@ -20,7 +20,15 @@ async function requestJson(url, signal) {
 }
 
 export function fetchRomanceAnime(
-  { query = "", status = "", type = "", orderBy = "score", sort = "desc", limit = 24 } = {},
+  {
+    query = "",
+    status = "",
+    type = "",
+    orderBy = "score",
+    sort = "desc",
+    limit = 24,
+    page = 1,
+  } = {},
   signal,
 ) {
   const params = new URLSearchParams({
@@ -28,6 +36,7 @@ export function fetchRomanceAnime(
     order_by: orderBy,
     sort,
     limit: String(limit),
+    page: String(page),
     sfw: "true",
   });
 

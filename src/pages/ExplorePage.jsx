@@ -6,10 +6,13 @@ import EmptyState from "../components/EmptyState.jsx";
 import ErrorState from "../components/ErrorState.jsx";
 import Icon from "../components/Icon.jsx";
 import LoadingGrid from "../components/LoadingGrid.jsx";
+import PaginationControls from "../components/PaginationControls.jsx";
 import PosterFrame from "../components/PosterFrame.jsx";
 import SearchFilters from "../components/SearchFilters.jsx";
 import { compactNumber } from "../utils/anime.js";
 import { useDebouncedValue } from "../hooks/useDebouncedValue.js";
+
+const PAGE_SIZE = 24;
 
 function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavorite }) {
   const [animeList, setAnimeList] = useState([]);
@@ -17,6 +20,9 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
   const [isLoading, setIsLoading] = useState(true);
   const [reloadKey, setReloadKey] = useState(0);
   const [resultTotal, setResultTotal] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(false);
 
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
@@ -27,6 +33,10 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
   const debouncedSearch = useDebouncedValue(search);
 
   useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedSearch, status, type, sort]);
+
+  useEffect(() => {
     const controller = new AbortController();
 
     async function loadAnime() {
@@ -34,7 +44,15 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
       setError("");
       try {
         const payload = await fetchRomanceAnime(
-          { query: debouncedSearch, status, type, orderBy: sort, sort: "desc" },
+          {
+            query: debouncedSearch,
+            status,
+            type,
+            orderBy: sort,
+            sort: "desc",
+            limit: PAGE_SIZE,
+            page: currentPage,
+          },
           controller.signal,
         );
         if (controller.signal.aborted) return;
@@ -42,6 +60,8 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
         setResultTotal(
           payload.pagination?.items?.total || (payload.data?.length ?? 0),
         );
+        setLastPage(payload.pagination?.last_visible_page || 1);
+        setHasNextPage(Boolean(payload.pagination?.has_next_page));
         setIsLoading(false);
       } catch (caughtError) {
         if (caughtError.name === "AbortError") return;
@@ -49,6 +69,8 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
         setError(message);
         setAnimeList([]);
         setResultTotal(0);
+        setLastPage(1);
+        setHasNextPage(false);
         setIsLoading(false);
         onNotify("error", message);
       }
@@ -56,7 +78,7 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
 
     loadAnime();
     return () => controller.abort();
-  }, [debouncedSearch, status, type, sort, reloadKey]);
+  }, [currentPage, debouncedSearch, status, type, sort, reloadKey]);
 
   function handleFavoriteToggle(anime) {
     if (favoriteIds.has(anime.mal_id)) {
@@ -71,6 +93,7 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
     setStatus("");
     setType("");
     setSort("score");
+    setCurrentPage(1);
   }
 
   const sortLabels = {
@@ -81,6 +104,8 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
   };
   const sortLabel = sortLabels[sort] || "score";
   const showLoading = isLoading || search !== debouncedSearch;
+  const pageStart = resultTotal === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1;
+  const pageEnd = resultTotal === 0 ? 0 : pageStart + animeList.length - 1;
 
   return (
     <div className="page-shell">
@@ -208,12 +233,12 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
               letterSpacing: ".1em",
             }}
           >
-            DE {compactNumber(resultTotal)} TÍTULOS DE ROMANCE
+            {showLoading ? "CARGANDO RESULTADOS..." : `${pageStart}–${pageEnd} DE ${compactNumber(resultTotal)} TÍTULOS DE ROMANCE`}
             {debouncedSearch ? ` QUE COINCIDEN CON "${debouncedSearch.toUpperCase()}"` : ""}
           </span>
         </div>
         <div className="serif" style={{ fontSize: 12, color: "var(--rose-500)" }}>
-          {status && `· ${status} `}
+          pág. {currentPage}/{lastPage} {status && `· ${status} `}
           {type && `· ${type} `}· ordenado por {sortLabel}
         </div>
       </div>
@@ -267,6 +292,18 @@ function ExplorePage({ favoriteIds, onAddFavorite, onNotify, onRequestRemoveFavo
             />
           ))}
         </section>
+      )}
+
+      {!showLoading && !error && animeList.length > 0 && (
+        <PaginationControls
+          currentPage={currentPage}
+          hasNextPage={hasNextPage}
+          lastPage={lastPage}
+          onPageChange={setCurrentPage}
+          pageEnd={pageEnd}
+          pageStart={pageStart}
+          total={resultTotal}
+        />
       )}
     </div>
   );

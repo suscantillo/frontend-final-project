@@ -4,14 +4,14 @@ import { getAnimeImage } from "../utils/anime.js";
 import Icon from "./Icon.jsx";
 import PosterFrame from "./PosterFrame.jsx";
 
-function SakuraLayer({ count = 18 }) {
+function SakuraLayer({ count = 10 }) {
   const [petals] = useState(() =>
     Array.from({ length: count }).map((_, index) => ({
       left: Math.random() * 100,
       delay: Math.random() * 11,
-      dur: 9 + Math.random() * 8,
-      sway: 2.4 + Math.random() * 2.6,
-      scale: 0.6 + Math.random() * 0.9,
+      dur: 14 + Math.random() * 10,
+      sway: 4.2 + Math.random() * 2.2,
+      scale: 0.55 + Math.random() * 0.6,
       hue: ["var(--rose-200)", "var(--rose-300)", "var(--rose-400)", "var(--lilac-200)"][
         index % 4
       ],
@@ -29,6 +29,7 @@ function SakuraLayer({ count = 18 }) {
             animationDelay: `${petal.delay}s, ${petal.delay}s`,
             animationDuration: `${petal.dur}s, ${petal.sway}s`,
             transform: `scale(${petal.scale})`,
+            opacity: 0.58,
             background: `radial-gradient(ellipse at 30% 30%, var(--rose-100), ${petal.hue})`,
           }}
         />
@@ -51,7 +52,6 @@ function HeroPanel({ featured }) {
             borderRadius: "50%",
             background: "var(--rose-100)",
             filter: "blur(8px)",
-            animation: "panelSway 7s ease-in-out infinite",
           }}
         />
         <div
@@ -64,16 +64,18 @@ function HeroPanel({ featured }) {
             borderRadius: "50%",
             background: "var(--lilac-100)",
             filter: "blur(12px)",
-            animation: "panelSway 9s ease-in-out infinite reverse",
           }}
         />
-        <div className="burst" style={{ top: 120, right: "40%" }} />
         <div
-          className="burst"
           style={{
+            position: "absolute",
             bottom: 60,
             left: "30%",
+            width: 180,
+            height: 180,
+            borderRadius: "50%",
             background: "radial-gradient(circle, rgba(255,107,168,.55), transparent 60%)",
+            opacity: 0.5,
           }}
         />
       </div>
@@ -81,7 +83,7 @@ function HeroPanel({ featured }) {
       <SakuraLayer />
 
       <div
-        className="kanji-pulse kanji-bg"
+        className="kanji-bg"
         aria-hidden="true"
         style={{
           position: "absolute",
@@ -126,7 +128,7 @@ function HeroPanel({ featured }) {
             ── IKIGAI №.001 · GENRE ROMANCE
           </span>
           <span
-            className="hand heart-bounce"
+            className="hand"
             style={{ fontSize: 22, color: "var(--rose-500)" }}
             aria-hidden="true"
           >
@@ -151,7 +153,7 @@ function HeroPanel({ featured }) {
               </span>
               <br />
               <span
-                className="slam-in-r kinetic-word"
+                className="slam-in-r"
                 style={{
                   color: "var(--rose-500)",
                   fontFamily: "var(--font-jp)",
@@ -172,7 +174,7 @@ function HeroPanel({ featured }) {
               >
                 que <span className="hi-bar">necesitabas</span>
                 <span
-                  className="heart-bounce"
+                  className="hand"
                   aria-hidden="true"
                   style={{
                     position: "absolute",
@@ -200,8 +202,7 @@ function HeroPanel({ featured }) {
                 animationDelay: ".9s",
               }}
             >
-              IKIGAI es un catálogo curado a mano del shelf de romance de MyAnimeList — ordenado
-              por la forma en que te aprietan el pecho. Datos en vivo desde la API pública de Jikan.
+              IKIGAI es un catálogo curado a mano del shelf de romance de MyAnimeList . Datos en vivo desde la API pública de Jikan.
             </p>
 
             <div
@@ -233,7 +234,7 @@ function HeroPanel({ featured }) {
                 className="hand"
                 style={{ fontSize: 18, color: "var(--ink-mute)", marginLeft: 4 }}
               >
-                ↳ <span className="kinetic-word" style={{ display: "inline-block" }}>start here</span>
+                ↳ <span style={{ display: "inline-block" }}>codeado con ❤️ por j.cantillo</span>
               </span>
             </div>
 
@@ -304,7 +305,7 @@ function HeroPanel({ featured }) {
             {featured ? (
               <>
                 <div
-                  className="panel-ink panel-sway slam-in-r"
+                  className="panel-ink slam-in-r"
                   style={{
                     position: "relative",
                     overflow: "hidden",
@@ -314,7 +315,6 @@ function HeroPanel({ featured }) {
                 >
                   <PosterFrame anime={featured} fill />
                   <div
-                    className="float-caption"
                     style={{
                       position: "absolute",
                       left: 14,
@@ -378,7 +378,7 @@ function HeroPanel({ featured }) {
                 </div>
 
                 <div
-                  className="panel-rose note-flap slam-in-r"
+                  className="panel-rose slam-in-r"
                   style={{
                     position: "absolute",
                     top: -14,
@@ -406,7 +406,7 @@ function HeroPanel({ featured }) {
                     }}
                   />
                   <div
-                    className="hand bubble-jiggle"
+                    className="hand"
                     style={{ fontSize: 19, color: "var(--ink)", lineHeight: 1.1 }}
                   >
                     "Lo vería 100×"
@@ -426,7 +426,7 @@ function HeroPanel({ featured }) {
 
                 <Link
                   to={`/anime/${featured.mal_id}`}
-                  className="badge-spin glow-pulse"
+                  className="slam-in-up"
                   aria-label={`Ver detalle de ${featured.title}`}
                   style={{
                     position: "absolute",
@@ -443,6 +443,7 @@ function HeroPanel({ featured }) {
                     boxShadow: "4px 4px 0 var(--rose-500)",
                     zIndex: 3,
                     textDecoration: "none",
+                    animationDelay: ".7s",
                   }}
                 >
                   <span>
@@ -457,23 +458,15 @@ function HeroPanel({ featured }) {
                 </Link>
 
                 <span
-                  className="drift-sparkle"
-                  style={{ left: "20%", top: "40%", animationDelay: "0s" }}
                   aria-hidden="true"
-                >
-                  ✦
-                </span>
-                <span
-                  className="drift-sparkle"
-                  style={{ left: "60%", top: "70%", animationDelay: "1.6s" }}
-                  aria-hidden="true"
-                >
-                  ♡
-                </span>
-                <span
-                  className="drift-sparkle"
-                  style={{ left: "80%", top: "20%", animationDelay: "3s" }}
-                  aria-hidden="true"
+                  style={{
+                    position: "absolute",
+                    left: "18%",
+                    top: "42%",
+                    fontSize: 18,
+                    color: "var(--rose-400)",
+                    opacity: 0.6,
+                  }}
                 >
                   ✦
                 </span>
@@ -495,7 +488,16 @@ function HeroPanel({ featured }) {
         </div>
       </div>
 
-      <div className="speed-lines-anim" style={{ height: 60, marginTop: 60 }} aria-hidden="true" />
+      <div
+        style={{
+          height: 52,
+          marginTop: 60,
+          background:
+            "repeating-linear-gradient(90deg, transparent 0 14px, rgba(42,21,48,.12) 14px 15px, transparent 15px 28px)",
+          opacity: 0.7,
+        }}
+        aria-hidden="true"
+      />
     </section>
   );
 }
