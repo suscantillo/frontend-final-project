@@ -78,12 +78,12 @@ function Footer() {
       >
         <div className="marquee-track" style={{ color: "white" }}>
           <span>生き甲斐</span>
-          <span>IKIGAI</span>
+          <span style={{ color: "var(--ink)" }}>IKIGAI</span>
           <span>♡ 探す</span>
           <span>since 2026</span>
           <span>discover · save · adore</span>
           <span>生き甲斐</span>
-          <span>IKIGAI</span>
+          <span style={{ color: "var(--ink)" }}>IKIGAI</span>
           <span>♡ 探す</span>
           <span>since 2026</span>
           <span>discover · save · adore</span>
@@ -92,7 +92,7 @@ function Footer() {
 
       <div className="footer-grid">
         <div>
-          <Logo />
+      
           <p
             style={{
               marginTop: 14,
@@ -115,7 +115,7 @@ function Footer() {
               marginTop: 18,
             }}
           >
-            POWERED BY JIKAN · GENRE 22 · MADE WITH ♡
+            POWERED BY JIKAN API
           </p>
         </div>
       </div>

@@ -35,7 +35,7 @@ function NotFoundPage() {
         <div
           className="halftone"
           aria-hidden="true"
-          style={{ position: "absolute", inset: 0, opacity: 0.25 }}
+          style={{ position: "absolute", inset: 0, opacity: 0.25, pointerEvents: "none" }}
         />
         <div
           aria-hidden="true"
@@ -103,6 +103,8 @@ function NotFoundPage() {
             justifyContent: "center",
             marginTop: 22,
             flexWrap: "wrap",
+            position: "relative",
+            zIndex: 1,
           }}
         >
           <Link to="/" className="btn btn-primary" style={{ textDecoration: "none" }}>

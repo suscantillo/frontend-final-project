@@ -9,9 +9,9 @@ const TYPE_OPTIONS = [
   { value: "special", label: "Special" },
 ];
 
-function Segmented({ label, value, options, onChange }) {
+function Segmented({ label, mobileCols = "2", value, options, onChange }) {
   return (
-    <div className="flex items-center gap-1.5">
+    <div className="flex items-center gap-1.5 max-[420px]:w-full max-[420px]:flex-col max-[420px]:items-start">
       <span
         className="mono text-[10px] tracking-[.1em] text-[var(--ink-mute)]"
       >
@@ -20,7 +20,12 @@ function Segmented({ label, value, options, onChange }) {
       <div
         role="radiogroup"
         aria-label={label}
-        className="inline-flex overflow-hidden rounded-full border-[1.5px] border-[var(--ink)] bg-[var(--paper)]"
+        className={[
+          "inline-flex overflow-hidden rounded-full border-[1.5px] border-[var(--ink)] bg-[var(--paper)]",
+          "max-[420px]:grid max-[420px]:w-full max-[420px]:overflow-visible max-[420px]:border-0 max-[420px]:bg-transparent",
+          mobileCols === "3" ? "max-[420px]:grid-cols-3" : "max-[420px]:grid-cols-2",
+          "max-[420px]:gap-2",
+        ].join(" ")}
       >
         {options.map((option, index) => {
           const active = value === option.value;
@@ -37,6 +42,8 @@ function Segmented({ label, value, options, onChange }) {
                   ? "bg-[var(--ink)] text-[var(--paper)]"
                   : "bg-transparent text-[var(--ink)]",
                 index > 0 ? "border-l-[1.5px] border-[var(--ink)]" : "",
+                "max-[420px]:rounded-full max-[420px]:border-[1.5px] max-[420px]:border-[var(--ink)] max-[420px]:px-2 max-[420px]:py-2 max-[420px]:text-[11px]",
+                "max-[420px]:border-l-0",
               ].join(" ")}
             >
               {option.label}
@@ -113,13 +120,20 @@ function SearchFilters({
 
       <Segmented
         label="Estado"
+        mobileCols="2"
         value={status}
         options={STATUS_FILTERS.map((s) => ({ value: s.value, label: s.label }))}
         onChange={onStatusChange}
       />
-      <Segmented label="Tipo" value={type} options={TYPE_OPTIONS} onChange={onTypeChange} />
+      <Segmented
+        label="Tipo"
+        mobileCols="3"
+        value={type}
+        options={TYPE_OPTIONS}
+        onChange={onTypeChange}
+      />
 
-      <div className="flex items-center gap-1.5">
+      <div className="flex items-center gap-1.5 max-[420px]:w-full max-[420px]:justify-between">
         <span
           className="mono text-[10px] tracking-[.1em] text-[var(--ink-mute)]"
         >
@@ -140,14 +154,14 @@ function SearchFilters({
 
       <button
         type="button"
-        className="btn btn-sm"
+        className="btn btn-sm max-[420px]:w-full max-[420px]:justify-center"
         onClick={onReset}
         aria-label="Limpiar filtros"
       >
         <Icon name="x" size={12} /> Limpiar
       </button>
 
-      <div className="ml-auto flex gap-1.5">
+      <div className="ml-auto flex gap-1.5 max-[420px]:ml-0 max-[420px]:w-full max-[420px]:justify-end">
         <ViewToggle
           active={view === "grid"}
           onClick={() => onViewChange("grid")}

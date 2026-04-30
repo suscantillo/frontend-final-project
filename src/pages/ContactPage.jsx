@@ -259,11 +259,6 @@ function ContactPage({ onNotify, onRequestSend }) {
           }}
           aria-label="Formulario de contacto"
         >
-          <div
-            className="stripe-banner"
-            style={{ position: "absolute", top: 0, left: 0, right: 0, height: 10 }}
-            aria-hidden="true"
-          />
           <div style={{ paddingTop: 14 }}>
             <div
               className="mono"
